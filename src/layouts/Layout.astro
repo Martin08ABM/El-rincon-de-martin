@@ -1,13 +1,22 @@
+---
+// Hacer que el título pueda cambiar
+const { title } = Astro.props;
+// Importar TailwindCSS
+import '../styles/global.css';
+
+// Importar los elementos principales
+import Header from '../components/Header.astro';
+---
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+		<title>{title}</title>
 	</head>
 	<body>
+		<Header />
 		<slot />
 	</body>
 </html>
