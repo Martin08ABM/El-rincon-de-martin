@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { auth } from "../lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+async function handleRegister(e: Event) {
+  e.preventDefault();
+  const form = e.target as HTMLFormElement;
+  const email = (form.querySelector("#email") as HTMLInputElement).value;
+  const password = (form.querySelector("#password") as HTMLInputElement).value;
+
+  try {
+    await createUserWithEmailAndPassword(auth, email, password);
+    window.location.href = "/dashboard"; // Redirigir al dashboard
+  } catch (err: any) {
+    alert("Error en el registro: " + err.message);
+  }
+}
+---
+<Layout title="">
+
+</Layout>

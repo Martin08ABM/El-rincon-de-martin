@@ -1,0 +1,16 @@
+---
+export const prerender = true;
+
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="El Rincón de Martin - Blog">
+  <main class="p-4 mt-4 mb-4 flex-grow">
+    <h1 class="text-3xl text-black font-bold">Mi blog</h1>
+    <p class="text-[16px] text-blak font-normal mt-1">
+      En esta sección de mi blog enontrarás todos mis artículos, tutoriales y
+      noticias sobre desarrollo web y tecnología.
+    </p>
+    <div id="blogPosts"></div>
+  </main>
+</Layout>

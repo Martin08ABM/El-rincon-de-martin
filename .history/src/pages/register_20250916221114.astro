@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Registrarse">
+  <main>
+    
+  </main>
+  <h1>Registrarse</h1>
+  <p>¿Ya tienes una cuenta? <a href="/signin">Iniciar sesión</a></p>
+  <form action="/api/auth/register" method="post">
+    <label for="email">Correo electrónico</label>
+    <input type="email" name="email" id="email" />
+    <label for="password">Contraseña</label>
+    <input type="password" name="password" id="password" />
+    <button type="submit">Registrarse</button>
+  </form>
+
+  <div id="g_id_onload"
+     data-client_id="365622416977-t5ug41nk7tqe8f4kphpsegn4c9obfa56.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="redirect"
+     data-login_uri="http://localhost/4321/dashboard"
+     data-auto_prompt="false">
+  </div>
+
+  <div class="g_id_signin"
+      data-type="standard"
+      data-shape="pill"
+      data-theme="filled_blue"
+      data-text="signup_with"
+      data-size="large"
+      data-logo_alignment="left">
+  </div>
+</Layout>

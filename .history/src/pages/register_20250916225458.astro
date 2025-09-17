@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="El Rincón de Martin - Registrarse">
+  <main class="flex flex-col mt-4 mb-4 p-4 flex-grow">
+    <section class="flex flex-col p-3">
+      <h1 class="text-4xl font-bold">Registrarse</h1>
+      <form
+        action="/api/auth/register"
+        method="post"
+        enctype="application/x-www-form-urlencoded"
+        class="flex flex-col mt-4"
+      >
+        <label for="email">Correo electrónico:</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="border-black border-2 rounded-lg p-1 focus:outline-none ml-2 max-w-[25pc]"
+        />
+        <label for="password">Contraseña:</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="border-black border-2 rounded-lg p-1 focus:outline-none ml-2 max-w-[25pc]"
+        />
+        <button
+          type="submit"
+          class="border-2 border-black rounded-lg bg-[#C0392B] text-[#ECF0F1] text-lg font-bold p-1 mt-3 max-w-30"
+          >Registrarse</button
+        >
+      </form>
+      <p>¿Ya tienes una cuenta? <a href="/signin">Iniciar sesión</a></p>
+    </section>
+  </main>
+  <script>
+  const form = document.querySelector("form");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // evita el envío clásico del formulario
+
+    const email = form.email.value;
+    const password = form.password.value;
+
+    const res = await fetch(form.action, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (res.redirected) {
+      // si tu endpoint hace redirect, lo seguimos
+      window.location.href = res.url;
+    } else {
+      const text = await res.text();
+      alert("Respuesta del servidor: " + text);
+    }
+  });
+</script>
+
+</Layout>

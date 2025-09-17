@@ -1,0 +1,19 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="El Rincón de Martin - Registrarse">
+  <main class="flex flex-col mt-4 mb-4 p-4 flex-grow">
+    <section class="flex flex-col p-">
+      <h1 class="text-4xl font-bold">Registrarse</h1>
+      <form action="/api/auth/register" method="post" class="flex flex-col mt-4">
+        <label for="email">Correo electrónico</label>
+        <input type="email" name="email" id="email" class="border-black border-2 rounded-lg p-1 focus:outline-none ml-2 max-w-[25pc]" />
+        <label for="password">Contraseña</label>
+        <input type="password" name="password" id="password" class="border-black border-2 rounded-lg p-1 focus:outline-none ml-2 max-w-[25pc]" />
+        <button type="submit" class="border-2 border-black rounded-lg bg-[#C0392B] text-[#ECF0F1] text-lg font-bold p-1 ml-4 max-w-30">Registrarse</button>
+      </form>
+      <p>¿Ya tienes una cuenta? <a href="/signin">Iniciar sesión</a></p>
+    </section>
+  </main>
+</Layout>
