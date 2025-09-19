@@ -8,6 +8,8 @@ import vercel from "@astrojs/vercel";
 // Importación del componente de Clerk
 import clerk from "@clerk/astro";
 
+import node from "@astrojs/nod";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -16,6 +18,7 @@ export default defineConfig({
   integrations: [
     clerk()
   ],
-  adapter: vercel(),
+  //adapter: vercel(),
+  adapter: node({ mode: "standalone" }),
   output: 'server',
 });

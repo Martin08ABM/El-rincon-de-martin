@@ -16,6 +16,7 @@ export default defineConfig({
   integrations: [
     clerk()
   ],
+
   adapter: vercel(),
   output: 'server',
 });

@@ -14,8 +14,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   integrations: [
-    clerk()
-  ],
+    clerk()],
+
   adapter: vercel(),
-  output: 'server',
 });

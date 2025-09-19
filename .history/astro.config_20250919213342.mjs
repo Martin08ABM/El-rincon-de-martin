@@ -16,6 +16,7 @@ export default defineConfig({
   integrations: [
     clerk()
   ],
-  adapter: vercel(),
+  //adapter: vercel(),
+  adapter: node({ mode: "standalone" }),
   output: 'server',
 });
