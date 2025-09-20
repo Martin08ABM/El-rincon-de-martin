@@ -1,72 +1,61 @@
----
-import {
-  SignedIn,
-  SignedOut,
-  UserButton,
-  SignInButton,
-} from "@clerk/astro/components";
----
-
-<header class="max-w-full w-full max-h-24 h-24 flex flex-col mb-6">
-  <!-- Section de la primea parte del Header -->
-  <div class="flex flex-row w-full h-auto">
-    <div
-      class="flex flex-row w-full h-auto justify-between items-center p-5 bg-[#2C3E50]"
+<header
+  class="relative w-full bg-[#2C3E50] p-5 flex items-center justify-between mb-3"
+>
+  <a href="/" class="p-2">
+    <h1
+      class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#ECF0F1] text-center md:text-left"
     >
-      <a href="/" class="p-2 ml-[2%]">
-        <h1
-          class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#ECF0F1]"
-        >
-          El Rincón de Martín
-        </h1>
-      </a>
-      <div class="flex flex-row items-center mx-w-[50%] w-[20%] justify-around">
-      <!-- Input de búsqueda responsivo -->
-      <div class="flex items-center">
-        <!-- Input search responsivo -->
-        <div class="hidden md:block">
-          <input
-            type="search"
-            name="search"
-            placeholder="Buscar..."
-            id="searchBar"
-            class="w-64 lg:w-80 h-10 border-2 border-[#1C1C1C] rounded-xl bg-white px-4 py-2 text-sm"
-          />
-        </div>
-      </div>
-      <div class="flex flex-row items-center h-max">
-        <SignedOut>
-          <SignInButton mode="modal"  class="border-2 border-[#1C1C1C] rounded-[50%] h-15 w-20 bg-[#E74C3C] p-2 text-lg font-bold" />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </div>
-      </div>
-    </div>
-  </div>
+      El Rincón de Martín
+    </h1>
+  </a>
 
-  <!-- Navbar con enlaces -->
-  <nav class="w-full h-auto flex flex-row bg-[#007BFF] p-2">
+  <!-- Boton del menú -->
+  <button id="menu-btn" class="block md:hidden text-white focus:outline-none">
+    <svg
+      class="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M4 6h16M4 12h16m-7 6h7"></path>
+    </svg>
+  </button>
+
+  <nav
+    id="menu"
+    class="hidden md:flex items-center justify-between md:w-auto w-full absolute md:static transition ease-in-out duration-500 top-full left-0 md:inset-auto bg-[#2C3E50] md:bg-transparent z-10"
+  >
     <ul
-      class="w-full flex flex-row justify-evenly list-none text-md font-medium"
+      class="flex flex-col items-center w-full py-4 md:py-0 md:flex-row md:space-x-6 list-none text-md font-medium"
     >
-      <!-- Enlaces a secciones de la web -->
-      <li>
-        <a href="/" class="text-[#FFFFFF]"> Inicio </a>
+      <li class="py-2 md:py-0">
+        <a href="/" class="text-[#FFFFFF]">Inicio</a>
       </li>
-      <li>
-        <a href="/blog/blog" class="text-[#FFFFFF]"> Blog </a>
+      <li class="py-2 md:py-0">
+        <a href="/blog/blog" class="text-[#FFFFFF]">Blog</a>
       </li>
-      <li>
-        <a href="/projects/projects" class="text-[#FFFFFF]"> Proyectos </a>
+      <li class="py-2 md:py-0">
+        <a href="/projects/projects" class="text-[#FFFFFF]">Proyectos</a>
       </li>
-      <li>
-        <a href="/about-me" class="text-[#FFFFFF]"> Sobre mí </a>
+      <li class="py-2 md:py-0">
+        <a href="/about-me" class="text-[#FFFFFF]">Sobre mí</a>
       </li>
-      <li>
-        <a href="/contact" class="text-[#FFFFFF]"> Contacto </a>
+      <li class="py-2 md:py-0">
+        <a href="/contact" class="text-[#FFFFFF]">Contacto</a>
       </li>
     </ul>
-  </nav>
 </header>
+
+<script>
+  const menuBtn = document.getElementById("menu-btn");
+  const menu = document.getElementById("menu");
+
+  menuBtn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+</script>

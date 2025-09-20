@@ -1,0 +1,56 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+<Layout>
+  <main class="flex flex-xol flex-grow p-4">
+    <div class="w-full max-w-[70%] mx-auto">
+      <h1 class="font-bold text-black text-3xl mb-4">Subir un post a proyectos</h1>
+      <form>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
+            Título del post:
+          </label>
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="title"
+            type="text"
+            placeholder="Nombre del proyecto"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="content">
+            Contenido del post:
+          </label>
+          <textarea
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="content"
+            rows="4"
+            placeholder="Contenido del post"
+            required
+          ></textarea>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+            Escritor del post:
+          </label>
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="name"
+            type="text"
+            placeholder="Escritor del post"
+            required
+          />
+        </div>
+        <div class="flex items-center justify-between">
+          <button
+            class="text-orange w-50 border-2 border-black bg-amber-00 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+          >
+            Subir Proyecto
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+</Layout>
