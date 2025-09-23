@@ -1,8 +1,81 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { supabase } from "../lib/supabase";
+
+// Fetch latest 5 blog posts
+const { data: blogPosts, error: blogError } = await supabase
+  .from("postsBlog")
+  .select("title, content, name")
+  .order("created_at", { ascending: false })
+  .limit(5);
+
+// Fetch latest 5 project posts
+const { data: projectPosts, error: projectError } = await supabase
+  .from("postsProject") // Assuming this is the table name for projects
+  .select("title, explanation, link, image") // Assuming these are the column names
+  .order("created_at", { ascending: false })
+  .limit(5);
+
+if (blogError) console.error("Error fetching blog posts:", blogError.message);
+if (projectError) console.error("Error fetching project posts:", projectError.message);
 ---
 
 <Layout title="El Rincón de Martin - Inicio">
   <main class="p-4 mt-4 mb-4 flex-grow">
+    <!-- Blog Posts Section -->
+    <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-6 text-center">Últimas Entradas del Blog</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          blogPosts && blogPosts.length > 0 ? (
+            blogPosts.map((post) => (
+              <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-2">{post.title}</h3>
+                <p class="text-gray-700 mb-4">
+                  {post.content.substring(0, 100)}...
+                </p>
+                <span class="text-sm text-gray-500">Por: {post.name}</span>
+              </div>
+            ))
+          ) : (
+            <p class="text-center col-span-full">
+              No hay posts en el blog todavía.
+            </p>
+          )
+        }
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section>
+      <h2 class="text-3xl font-bold mb-6 text-center">Últimos Proyectos</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          projectPosts && projectPosts.length > 0 ? (
+            projectPosts.map((project) => (
+              <div class="bg-white rounded-lg shadow-md p-6">
+                <img src={project.image} alt={project.title} class="w-full h-48 object-cover mb-4 rounded-lg" />
+                <h3 class="text-xl font-bold mb-2">{project.title}</h3>
+                <p class="text-gray-700 mb-4">
+                  {project.explanation.substring(0, 100)}...
+                </p>
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-orange-500 hover:underline"
+                >
+                  Ver proyecto
+                </a>
+              </div>
+            ))
+          ) : (
+            <p class="text-center col-span-full">
+              No hay proyectos para mostrar todavía.
+            </p>
+          )
+        }
+      </div>
+    </section>
   </main>
 </Layout>
