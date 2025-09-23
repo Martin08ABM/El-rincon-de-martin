@@ -11,6 +11,16 @@ if (error) {
   console.error("Error fetching posts:", error.message);
 }
 console.log("Fetched posts:", posts);
+
+// Función para formatear la fecha
+const formatDate = (timestamp) => {
+  if (!timestamp) return '';
+  return new Date(timestamp).toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
 ---
 
 <Layout title="Blog - El Rincón de Martin">
@@ -19,8 +29,8 @@ console.log("Fetched posts:", posts);
     <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-left">
-          <thead class="bg-gray-100">
-            <tr>
+          <thead class="bg-gray-100 w-full justify-between">
+            <tr class="justify-between">
               <th class="p-4 font-bold">Título</th>
               <th class="p-4 font-bold">Contenido</th>
               <th class="p-4 font-bold">Autor</th>
@@ -41,7 +51,7 @@ console.log("Fetched posts:", posts);
                 })
               ) : (
                 <tr>
-                  <td colspan="3" class="p-4 text-center text-gray-500">
+                  <td colspan="4" class="p-4 text-center text-gray-500">
                     No hay posts para mostrar.
                   </td>
                 </tr>

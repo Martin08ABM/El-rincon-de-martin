@@ -5,14 +5,14 @@ import { supabase } from "../lib/supabase";
 // Fetch latest 5 blog posts
 const { data: blogPosts, error: blogError } = await supabase
   .from("postsBlog")
-  .select("title, content, name")
+  .select("title, content, name, created_at")
   .order("created_at", { ascending: false })
   .limit(5);
 
 // Fetch latest 5 project posts
 const { data: projectPosts, error: projectError } = await supabase
-  .from("postsProject") // Assuming this is the table name for projects
-  .select("title, explanation, link, image") // Assuming these are the column names
+  .from("uploadsProjects")
+  .select("title, explanation, link, image") 
   .order("created_at", { ascending: false })
   .limit(5);
 

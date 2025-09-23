@@ -1,7 +1,7 @@
 import { supabase } from "../lib/supabase";
 
 export function mountFormHandler() {
-  const form = document.getElementById("project-form");
+  const form = document.getElementById("blog-form");
   if (!form) {
     console.error("Form with ID 'project-form' not found.");
     return;
@@ -11,43 +11,22 @@ export function mountFormHandler() {
     e.preventDefault();
 
     const title = document.getElementById("title").value;
-    const explanation = document.getElementById("explanation").value;
-    const link = document.getElementById("link").value;
-    const image = document.getElementById("image").files[0];
+    const content = document.getElementById("explanation").value;
+    const name = document.getElementById("name").value;
 
     try {
-      const imageName = `${Date.now()}-${image.name}`;
-      const { data: imageData, error: imageError } = await supabase.storage
-        .from("projects")
-        .upload(imageName, image);
-
-      if (imageError) {
-        console.error("Error al subir la imagen:", imageError);
-        alert("Hubo un error al subir la imagen. Por favor, inténtalo de nuevo.");
-        return;
-      }
-
-      const { data: imageUrl } = await supabase.storage
-        .from("projects")
-        .getPublicUrl(imageName);
-
       const { data, error } = await supabase
-        .from("postsProject")
+        .from("postsBlog")
         .insert([
-          {
-            title: title,
-            explanation: explanation,
-            link: link,
-            image: imageUrl.publicUrl,
-          },
+          { title: title, content: content, name: name },
         ]);
 
       if (error) {
-        console.error("Error al insertar el proyecto:", error);
-        alert("Hubo un error al subir el proyecto. Por favor, inténtalo de nuevo.");
+        console.error("Error al insertar el post:", error);
+        alert("Hubo un error al subir el post. Por favor, inténtalo de nuevo.");
       } else {
-        alert("Proyecto subido con éxito.");
-        console.info("Proyecto insertado:", data);
+        alert("Post subido con éxito.");
+        console.info("Post insertado:", data);
         form.reset();
       }
     } catch (err) {
