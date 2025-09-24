@@ -4,7 +4,7 @@ import { supabase } from "../../lib/supabase";
 
 const { data: posts, error } = await supabase
   .from("postsBlog")
-  .select("*")
+  .select("id, title, content, name")
   .order("created_at", { ascending: false });
 
 if (error) {
@@ -43,7 +43,7 @@ const formatDate = (timestamp) => {
                   console.log("Rendering post:", post);
                   return (
                     <tr class="border-t hover:bg-gray-50">
-                      <td class="p-4">{post.title}</td>
+                      <td class="p-4"><a href={`/blog/${post.id}`} class="text-orange-500 hover:underline">{post.title}</a></td>
                       <td class="p-4">{post.content}</td>
                       <td class="p-4">{post.name}</td>
                     </tr>
