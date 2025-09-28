@@ -1,8 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { supabase } from "../../lib/supabase";
+import CommentBox from "../../components/commentBox.astro";
 
 const { id } = Astro.params;
+const postSlug = id; // Using 'id' as the slug for projects
 
 const { data: project, error } = await supabase
   .from("uploadProjects")
@@ -34,6 +36,8 @@ if (error) {
       <br />
 
       <a href="/projects/projects" class="text-orange-500 hover:underline mt-8 inline-block">Volver a Proyectos</a>
+
+      <CommentBox postSlug={postSlug} />
     </article>
   </main>
 </Layout>

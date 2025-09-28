@@ -1,8 +1,10 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { supabase } from "../../lib/supabase";
+import CommentBox from "../../components/commentBox.astro";
 
 const { id } = Astro.params;
+const postSlug = id; // Using 'id' as the slug for blog posts
 
 const { data: post, error } = await supabase
   .from("postsBlog")
@@ -28,6 +30,8 @@ if (error) {
       </div>
 
       <a href="/blog/blog" class="text-orange-500 hover:underline mt-8 inline-block">Volver al Blog</a>
+
+      <CommentBox postSlug={postSlug} />
     </article>
   </main>
 </Layout>
