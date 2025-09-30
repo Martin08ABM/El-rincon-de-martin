@@ -3,6 +3,8 @@ import Layout from "../../layouts/Layout.astro";
 import { supabase } from "../../lib/supabase";
 import CommentBox from "../../components/commentBox.astro";
 
+import { remark } from "remark";
+import html from "remark-html";
 const { id } = Astro.params;
 const postSlug = id; // Using 'id' as the slug for blog posts
 
@@ -17,6 +19,8 @@ if (error) {
   return Astro.redirect("/404");
 }
 
+const processedContent = await remark().use(html).process(post.content);
+const contentHtml = processedContent.toString();
 ---
 
 <Layout title={post.title}>
@@ -25,9 +29,7 @@ if (error) {
       <h1 class="text-3xl md:text-4xl font-bold mb-4">{post.title}</h1>
       <p class="text-gray-600 mb-6">Por: {post.name}</p>
       
-      <div class="prose max-w-none">
-        <p>{post.content}</p>
-      </div>
+      <div class="prose max-w-none" set:html={contentHtml} />
 
       <a href="/blog/blog" class="text-orange-500 hover:underline mt-8 inline-block">Volver al Blog</a>
 
