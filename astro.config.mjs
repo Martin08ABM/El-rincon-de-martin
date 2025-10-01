@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 // Importación del plugin de Tailwind CSS para Vite
 import tailwindcss from "@tailwindcss/vite";
 // Importación del adaptador de Vercel
-import vercel from "@astrojs/vercel/serverless";
+import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({

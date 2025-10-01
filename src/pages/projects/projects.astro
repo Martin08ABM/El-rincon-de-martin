@@ -44,7 +44,7 @@ const formatDate = (timestamp) => {
                   return (
                     <tr class="border-t hover:bg-gray-50">
                       <td class="p-4"><a href={`/projects/${post.id}`} class="text-orange-500 hover:underline">{post.title}</a></td>
-                      <td class="p-4">{post.explanation}</td>
+                      <td class="p-4 max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">{post.explanation}</td>
                       <td class="p-4"><img src={post.images} alt={post.title} class="w-20 h-20 object-cover"/></td>
                     </tr>
                   );

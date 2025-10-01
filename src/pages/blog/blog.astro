@@ -42,9 +42,9 @@ const formatDate = (timestamp) => {
                 posts.map((post) => {
                   console.log("Rendering post:", post);
                   return (
-                    <tr class="border-t hover:bg-gray-50">
+                    <tr class="border-t hover:bg-gray-50 max-h-20">
                       <td class="p-4"><a href={`/blog/${post.id}`} class="text-orange-500 hover:underline">{post.title}</a></td>
-                      <td class="p-4">{post.content}</td>
+                      <td class="p-4 max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">{post.content}</td>
                       <td class="p-4">{post.name}</td>
                     </tr>
                   );
