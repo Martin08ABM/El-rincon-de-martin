@@ -7,6 +7,9 @@ import '../styles/global.css';
 // Importar los elementos principales
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+
+// Importación de Vercel Analytics
+import Analytics from '@vercel/analytics/astro'
 ---
 <!doctype html>
 <html lang="es-ES">
@@ -15,6 +18,7 @@ import Footer from '../components/Footer.astro';
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 		<title>{title}</title>
+		<Analytics />
 	</head>
 	<body class="flex flex-col">
 		<Header />
