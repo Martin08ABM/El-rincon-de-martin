@@ -1,17 +1,37 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-// Ruta protegida
-const isProtectedRoute = createRouteMatcher(['/administrator(.*)']);
+// Rutas protegidas
+const isAdminRoute = createRouteMatcher(['/admin(.*)']);
+
+// Array con los userId
+const ADMIN_USER_ID = 'user_36EkDrBzUzwfrsMZp0erQWZRcFC'; // userId
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect()
+  // Obtenemos la información del usuario autenticado
+  const { userId } = await auth();
+  
+  // Si es una ruta de admin
+  if (isAdminRoute(req)) {
+    // Si no hay usuario autenticado, redirige al sign-in
+    if (!userId) {
+      return NextResponse.redirect(new URL('/sign-in', req.url));
+    }
+    
+    // Si el usuario NO es admin, lo redirigimos a la página principal
+    if (userId !== ADMIN_USER_ID) {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+    
+    // Si se valida todo, me deja pasar
+  }
 });
 
 export const config = {
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
+    // Excluye archivos estáticos y rutas internas de Next.js
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/administrator(.*)',
+    // Siempre ejecuta para rutas de API
+    '/(api|trpc)(.*)',
   ],
-}
+};
