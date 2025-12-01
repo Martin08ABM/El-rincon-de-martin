@@ -18,17 +18,27 @@
         "name": "next"
       }
     ],
+    // --- CAMBIOS CLAVE AQUÍ ---
+    // La raíz para las importaciones (lo que sigue a 'baseUrl')
+    "baseUrl": "src", 
+    // Los alias (accesos directos) para las importaciones
     "paths": {
-      "@/*": ["./*"]
+      // Alias general: cualquier cosa bajo "@/..." apunta al contenido de "src/"
+      "@/*": ["./*"], 
+      // Alias específico para componentes (sugerido para mayor claridad)
+      "@/components/*": ["components/*"] 
     }
+    // -------------------------
   },
+  // Incluir 'src/**/*' asegura que TypeScript escanee toda la carpeta 'src'
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "src/**/*" 
   ],
   "exclude": ["node_modules"]
 }
