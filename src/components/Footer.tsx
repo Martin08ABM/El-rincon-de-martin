@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="flex justify-between items-center align-middle bg-transparent p-4 fixed bottom-0 w-full h-20">
-      <p className="text-md md:text-xl">&copy; {new Date().getFullYear()} Todos los derechos reservados</p>
+    <footer className="flex justify-between items-center align-middle bg-transparent px-2 py-4 fixed bottom-0 w-full h-20">
+      <p className="text-sm md:text-md">&copy; {new Date().getFullYear()} Todos los derechos reservados</p>
       <div className="flex flex-row align-middle justify-center items-center">
         <p className="text-white mr-4 text-md md:text-xl">Redes sociales:</p>
         <div className="flex h-4 justify-between md:h-8">

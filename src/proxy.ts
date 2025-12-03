@@ -1,11 +1,17 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const { ADMIN_USER_IDS } = process.env;
 
 // Rutas protegidas
 const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 
+
 // Array con los userId
-const ADMIN_USER_ID = 'user_36EkDrBzUzwfrsMZp0erQWZRcFC'; // userId
+const ADMIN_USER = ADMIN_USER_IDS?.split(','); // userId
 
 export default clerkMiddleware(async (auth, req) => {
   // Obtenemos la información del usuario autenticado
@@ -13,13 +19,13 @@ export default clerkMiddleware(async (auth, req) => {
   
   // Si es una ruta de admin
   if (isAdminRoute(req)) {
-    // Si no hay usuario autenticado, redirige al sign-in
+    // Si no hay usuario autorizado, redirige al sign-in
     if (!userId) {
       return NextResponse.redirect(new URL('/sign-in', req.url));
     }
     
     // Si el usuario NO es admin, lo redirigimos a la página principal
-    if (userId !== ADMIN_USER_ID) {
+    if (!ADMIN_USER.includes(userId)) {
       return NextResponse.redirect(new URL('/', req.url));
     }
     
@@ -34,4 +40,4 @@ export const config = {
     // Siempre ejecuta para rutas de API
     '/(api|trpc)(.*)',
   ],
-};
+};  
