@@ -1,8 +1,13 @@
+import HeaderAdmin from "./components/Header"
+import NavAdmin from "./components/NavAdmin"
+
 export default function Administrator() {
   return (
     <>
-      <h1 className="text-xl md:text-2xl font-bold">Panel de administración</h1>
-      
+      <div className="flex flex-col">
+        <HeaderAdmin />
+        <NavAdmin />
+      </div>
     </>
   )
 }

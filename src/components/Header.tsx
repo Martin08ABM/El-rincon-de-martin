@@ -6,9 +6,9 @@ import Image from "next/image";
 import { useState } from "react";
 
 import Nav from "@/components/styles/nav.module.css"
-import Auth from "@/components/ui/auth"
 
-export default function Header({ userData }: { userData: React.ReactNode }) {
+
+export default function Header({ userData, auth }: { userData: React.ReactNode, auth: React.ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -16,7 +16,7 @@ export default function Header({ userData }: { userData: React.ReactNode }) {
       {/* Columna 1: Logo */}
       <div className="col-span-1 px-2 md:px-8 py-1">
         <Link href="/">
-          <Image src="/logo.png" width={200} height={200} className="w-[120px] md:w-[200px]" alt="El Rincón de Martin Logo" />
+          <Image src="/logo.png" loading="eager" width={125} height={125} className="mt-2 w-auto ml-0 md:ml-[-44px] xl:ml-0" alt="El Rincón de Martin Logo" />
         </Link>
       </div>
 
@@ -24,23 +24,23 @@ export default function Header({ userData }: { userData: React.ReactNode }) {
       <div className="hidden md:flex col-span-1 justify-center">
         <div className={Nav.menu}>  
             <Link href="/blog">
-              <p className="text-lg md:text-xl font-bold hover:text-gray-500 transition-colors">Blog</p>
+              <p className="text-md md:text-md xl:text-lg font-bold hover:text-gray-500 transition-colors">Blog</p>
           </Link>
           <Link href="/news">
-            <p className="text-lg md:text-xl font-bold hover:text-gray-500 transition-colors">Noticias</p>
+            <p className="text-md md:text-md xl:text-lg font-bold hover:text-gray-500 transition-colors">Noticias</p>
           </Link>
           <Link href="/about">
-            <p className="text-lg md:text-xl font-bold hover:text-gray-500 transition-colors">Sobre mí</p>
+            <p className="text-md md:text-md xl:text-lg font-bold hover:text-gray-500 transition-colors">Sobre mí</p>
           </Link>
           <Link href="/portfolio">
-            <p className="text-lg md:text-xl font-bold hover:text-gray-500 transition-colors">Portafolio</p>
+            <p className="text-md md:text-md xl:text-lg font-bold hover:text-gray-500 transition-colors">Portafolio</p>
           </Link>
         </div>
       </div>
 
       {/* Columna 3 (Desktop): Inicio de sesión / Registro (Derecha) */}
       <div className="hidden md:flex col-span-1 justify-end px-8 gap-4">
-        <Auth />
+        {auth}
       </div>
 
       {/* Mobile: Botón de menú (Derecha) */}
@@ -69,7 +69,7 @@ export default function Header({ userData }: { userData: React.ReactNode }) {
           </Link>
           <hr className="w-1/2 border-gray-600"/>
           <div className="flex flex-row justify-around items-center gap-2">
-            <Auth /> 
+            {auth} 
             {userData}
           </div>
         </div>

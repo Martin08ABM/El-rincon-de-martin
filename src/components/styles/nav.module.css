@@ -9,7 +9,7 @@
   flex-direction: row; 
   gap: 5rem; 
   justify-content: space-around; 
-  border: 4px solid #ffffff;
+  border: 2px solid #ffffff;
   border-radius: 50px;
   position: sticky;
 }

@@ -3,7 +3,7 @@
 import { clerkClient } from "@clerk/nextjs/server";
 import { auth } from "@clerk/nextjs/server";
 
-export default async function UserData() {
+export default async function NameLastname() {
   const { userId } = await auth()
 
   if (!userId) return null

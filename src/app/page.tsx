@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
+import Auth from "@/components/ui/auth";
 import Header from '@/components/Header'
 import Footer from "@/components/Footer";
-import UserData from "@/components/ui/userData";
+import NameLastname from "@/components/ui/nameLastname";
 
 // Metadata con el título de la página
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Header userData={<UserData />} />
+      <Header userData={<NameLastname />} auth={<Auth />} />
       <Footer />
     </>
   )
