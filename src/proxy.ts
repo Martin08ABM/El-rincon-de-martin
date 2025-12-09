@@ -14,23 +14,23 @@ const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 const ADMIN_USER =  ADMIN_USER_IDS?.split(',') ?? []; // userId
 
 export default clerkMiddleware(async (auth, req) => {
-  // // Obtenemos la información del usuario autenticado
-  // const { userId } = await auth();
+  // Obtenemos la información del usuario autenticado
+  const { userId } = await auth();
   
-  // // Si es una ruta de admin
-  // if (isAdminRoute(req)) {
-  //   // Si no hay usuario autorizado, redirige al sign-in
-  //   if (!userId) {
-  //     return NextResponse.redirect(new URL('/', req.url));
-  //   }
+  // Si es una ruta de admin
+  if (isAdminRoute(req)) {
+    // Si no hay usuario autorizado, redirige al sign-in
+    if (!userId) {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
     
-  //   // Si el usuario NO es admin, lo redirigimos a la página principal
-  //   if (!ADMIN_USER.includes(userId)) {
-  //     return NextResponse.redirect(new URL('/', req.url));
-  //   }
+    // Si el usuario NO es admin, lo redirigimos a la página principal
+    if (!ADMIN_USER.includes(userId)) {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
     
-  //   // Si se valida todo, me deja pasar
-  // }
+    // Si se valida todo, me deja pasar
+  }
 });
 
 export const config = {
