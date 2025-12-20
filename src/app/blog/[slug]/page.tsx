@@ -4,6 +4,7 @@ import Auth from '@/components/ui/auth';
 import NameLastname from '@/components/ui/nameLastname';
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
 
 // Esta página ahora es dinámica, como un camaleón que cambia de color según el árbol
 export default async function Page({ params }: { params: { slug: string } }) {
@@ -25,12 +26,18 @@ export default async function Page({ params }: { params: { slug: string } }) {
     <div className='flex flex-col'>
       <Header userData={<NameLastname />} auth={<Auth />} />
       <div className="max-w-4xl mx-auto px-4 py-8 text-center">
-        <article>
-          <h1 className="text-4xl font-bold mb-4">{post.data.title}</h1>
-          <p>{post.data.content}</p>
-        
-          {/* Metadatos del post (porque todos merecemos crédito, hasta los gatos blogueros) */}
-          <div className="text-gray-600 mb-6">
+        <article className="mt-8">
+          <h1 className="text-4xl font-bold mb-6 text-center">
+            {post.data.title}
+          </h1>
+
+          <div className="prose prose-invert prose-lg max-w-none text-left mx-auto">
+            <ReactMarkdown>
+              {post.data.content}
+            </ReactMarkdown>
+          </div>
+
+          <div className="text-gray-500 mt-10 text-center">
             <time dateTime={post.created_at}>
               {new Date(post.created_at).toLocaleDateString('es-ES', {
                 year: 'numeric',
