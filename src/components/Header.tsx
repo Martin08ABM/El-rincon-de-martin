@@ -12,7 +12,7 @@ export default function Header({ userData, auth }: { userData: React.ReactNode, 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="grid grid-cols-2 md:grid-cols-3 px-2 md:px-4 relative items-center mt-[-5px] md:mt-[-20px] focus:outline-0">
+    <header className="grid grid-cols-2 md:grid-cols-3 px-2 md:px-4 relative items-center mt-[-5px] md:mt-[-10px] focus:outline-0 top-0">
       {/* Columna 1: Logo */}
       <div className="col-span-1 px-2 md:px-8 py-1">
         <Link href="/">
@@ -61,11 +61,17 @@ export default function Header({ userData, auth }: { userData: React.ReactNode, 
           <Link href="/" onClick={() => setIsMenuOpen(false)}>
             <p className="text-2xl font-bold text-white">Inicio</p>
           </Link>
+          <Link href="/blog" onClick={() => setIsMenuOpen(false)}>
+            <p className="text-2xl font-bold text-white">Blog</p>
+          </Link>
+          <Link href="/news" onClick={() => setIsMenuOpen(false)}>
+            <p className="text-2xl font-bold text-white">Noticias</p>
+          </Link>
           <Link href="/about" onClick={() => setIsMenuOpen(false)}>
             <p className="text-2xl font-bold text-white">Sobre mí</p>
           </Link>
-          <Link href="/contact" onClick={() => setIsMenuOpen(false)}>
-            <p className="text-2xl font-bold text-white">Contacto</p>
+          <Link href="/portfolio" onClick={() => setIsMenuOpen(false)}>
+            <p className="text-2xl font-bold text-white">Portafolio</p>
           </Link>
           <hr className="w-1/2 border-gray-600"/>
           <div className="flex flex-row justify-around items-center gap-2">

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 interface User {
   id: string;
@@ -17,23 +17,7 @@ export default function AdminUsers() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Conffeti cuando se banea a un usuario
-  const triggerConfetti = () => {
-    // Crear múltiples piezas de confeti
-    for (let i = 0; i < 50; i++) {
-      const confetti = document.createElement('div');
-      confetti.className = 'confetti';
-      confetti.style.left = Math.random() * 100 + '%';
-      confetti.style.animationDelay = Math.random() * 0.3 + 's';
-      confetti.style.backgroundColor = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#6c5ce7'][Math.floor(Math.random() * 5)];
-      document.body.appendChild(confetti);
-      
-      // Eliminar después de la animación
-      setTimeout(() => confetti.remove(), 3000);
-    }
-  };
-
-  // 🔍 BÚSQUEDA - Filtrar usuarios basado en el query
+  // BÚSQUEDA - Filtrar usuarios basado en el input
   const filteredUsers = useMemo(() => {
     if (!searchQuery.trim()) return users;
     
@@ -66,32 +50,6 @@ export default function AdminUsers() {
     }
   };
 
-  useEffect(() => {
-    loadUsers();
-    
-    // Inyectar estilos CSS para el confeti
-    const style = document.createElement('style');
-    style.textContent = `
-      .confetti {
-        position: fixed;
-        width: 10px;
-        height: 10px;
-        top: -10px;
-        z-index: 9999;
-        animation: fall 3s linear forwards;
-      }
-      
-      @keyframes fall {
-        to {
-          transform: translateY(100vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-    
-    return () => style.remove();
-  }, []);
 
   // Ejecutar acción (ban/unban)
   async function doAction(id: string, action: 'ban' | 'unban') {
@@ -108,11 +66,6 @@ export default function AdminUsers() {
       if (!res.ok) {
         const text = await res.text();
         throw new Error(text || 'Error al ejecutar la acción');
-      }
-
-      // 🎊 CONFETI cuando se banea! (porque banear gente es... ¿celebrable? 😅)
-      if (action === 'ban') {
-        triggerConfetti();
       }
 
       // Recargar lista de usuarios
@@ -135,7 +88,7 @@ export default function AdminUsers() {
   // Estados de carga y error
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-neutral-950">
+      <div className="flex items-center justify-center bg-neutral-950">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-bold-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Cargando usuarios...</p>
