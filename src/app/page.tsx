@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <>
+    <div>
       <Header userData={<NameLastname />} auth={<Auth />} />
       <Footer />
-    </>
+    </div>
   )
 }
