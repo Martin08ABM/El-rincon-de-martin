@@ -16,10 +16,16 @@ export default async function NewsSection() {
       <div className="flex flex-row left-0 relative mt-4 ml-6 overflow-x-auto">
         <ul className="flex flex-row gap-4">
           {posts?.map((post) => (
-            <li key={post.id} className="border-2 border-neutral-600 rounded-lg px-4 py-2 bg-neutral-800 hover:bg-neutral-700/40 transition-all duration-200 min-w-[300px] max-h-[100px] flex-shrink-0">
-              <Link href={`/blog/${post.slug}`} className="text-blue-500 hover:underline-none">
-                <p className="text-lg font-bold">{post.data.title}</p>
-                <span className="text-md">{post.data.content}</span>
+            <li
+              key={post.id}
+              className="min-w-[300px] max-h-[100px] shrink-0 overflow-hidden border-2 border-neutral-600 rounded-lg px-4 py-2 bg-neutral-800 hover:bg-neutral-700/40 transition-all duration-200">
+              <Link href={`/news/${post.slug}`} className="text-blue-500">
+                <p className="text-lg font-bold truncate">
+                  {post.data.title}
+                </p>
+                <span className="text-md line-clamp-2 text-neutral-300">
+                  {post.data.content}
+                </span>
               </Link>
             </li>
           ))}
