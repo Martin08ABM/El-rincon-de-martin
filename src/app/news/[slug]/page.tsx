@@ -1,4 +1,7 @@
 'use server';
+import Header from '@/components/Header';
+import Auth from '@/components/ui/auth';
+import NameLastname from '@/components/ui/nameLastname';
 import { supabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 
@@ -19,27 +22,30 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <article>
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-        
-        {/* Metadatos del post (porque todos merecemos crédito, hasta los gatos blogueros) */}
-        <div className="text-gray-600 mb-6">
-          <time dateTime={post.created_at}>
-            {new Date(post.created_at).toLocaleDateString('es-ES', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </time>
-          {post.author && <span className="ml-4">Por {post.author}</span>}
-        </div>
+    <div className='flex flex-col'>
+      <Header userData={<NameLastname />} auth={<Auth />} />
+      <div className="max-w-4xl mx-auto px-4 py-8 text-center1">
+        <article className='mx-auto'>
+          <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+          <p>{post.data.content}</p>
+          
+          {/* Metadatos del post (porque todos merecemos crédito, hasta los gatos blogueros) */}
+          <div className="text-gray-600 mb-6">
+            <time dateTime={post.created_at}>
+              {new Date(post.created_at).toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </time>
+          </div>
 
-        {/* El contenido del post */}
-        <div className="prose prose-lg max-w-none">
-          {post.content}
-        </div>
-      </article>
+          {/* El contenido del post */}
+          <div className="prose prose-lg max-w-none">
+            {post.content}
+          </div>
+        </article>
+      </div>
     </div>
   );
 }
