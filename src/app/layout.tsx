@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,6 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
+      <Analytics />
       <html lang="es">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased px-4 py-2 bg-black w-screen h-screen`}>
           {children}
