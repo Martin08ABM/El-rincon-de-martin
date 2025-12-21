@@ -23,10 +23,10 @@ export default async function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col md:-mt-4'>
       <Header userData={<NameLastname />} auth={<Auth />} />
-      <div className="max-w-4xl mx-auto px-4 py-8 text-center1">
-        <article className="mt-8">
+      <div className="max-w-4xl mx-auto px-4 py-4 text-center1">
+        <article className="mt-2">
           <h1 className="text-4xl font-bold mb-6 text-center">
             {post.data.title}
           </h1>
