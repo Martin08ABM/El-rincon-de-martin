@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from "react"
-import { uploadContent } from "@/app/actions/uploadContent"
+import { useState, useRef } from "react"
+import { uploadContent, uploadImage } from "@/app/actions/uploadContent"
 import ReactMarkdown from "react-markdown"
 
 interface UploadResult {
@@ -9,6 +9,7 @@ interface UploadResult {
   error?: string
   message?: string
   data?: any
+  imageUrl?: string
 }
 
 export default function ContentAdmin() {
@@ -17,9 +18,65 @@ export default function ContentAdmin() {
   const [section, setSection] = useState("blog")
   const [result, setResult] = useState<UploadResult | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isUploadingImage, setIsUploadingImage] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setIsUploadingImage(true)
+    const formData = new FormData()
+    formData.append("image", file)
+
+    const response = await uploadImage(formData)
+
+    if (response.success && response.imageUrl) {
+      const imageMarkdown = `![Imagen](${response.imageUrl})`
+      const textarea = textareaRef.current
+      if (textarea) {
+        const start = textarea.selectionStart
+        const end = textarea.selectionEnd
+        const newContent = content.substring(0, start) + imageMarkdown + content.substring(end)
+        setContent(newContent)
+
+        setTimeout(() => {
+          textarea.focus()
+          textarea.setSelectionRange(start + imageMarkdown.length, start + imageMarkdown.length)
+        }, 0)
+      } else {
+        setContent(content + "\n" + imageMarkdown)
+      }
+      setResult({ success: true, message: "Imagen insertada correctamente" })
+      setTimeout(() => setResult(null), 3000)
+    } else {
+      setResult({ error: response.error || "Error al subir la imagen" })
+    }
+
+    setIsUploadingImage(false)
+    e.target.value = ""
+  }
+
+  const insertMarkdown = (before: string, after: string = "") => {
+    const textarea = textareaRef.current
+    if (!textarea) return
+
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const selectedText = content.substring(start, end)
+    const newText = before + selectedText + after
+    const newContent = content.substring(0, start) + newText + content.substring(end)
+
+    setContent(newContent)
+
+    setTimeout(() => {
+      textarea.focus()
+      const newPosition = start + before.length + selectedText.length
+      textarea.setSelectionRange(newPosition, newPosition)
+    }, 0)
+  }
 
   const handleSubmit = async () => {
-    // Validación básica del lado del cliente
     if (!title.trim() || !content.trim()) {
       setResult({ error: "Por favor rellena todos los campos" })
       return
@@ -28,24 +85,20 @@ export default function ContentAdmin() {
     setIsSubmitting(true)
     setResult(null)
 
-    // Crear FormData
     const formData = new FormData()
     formData.append("whereGo", section)
     formData.append("titleUpload", title)
     formData.append("contentUpload", content)
 
-    // Llamar a la Server Action
     const response = await uploadContent(formData)
 
     setResult(response)
     setIsSubmitting(false)
 
-    // Si fue exitoso, limpiar el formulario
     if (response.success) {
       setTitle("")
       setContent("")
-      
-      // Opcional: cerrar mensaje de éxito después de 5 segundos
+
       setTimeout(() => {
         setResult(null)
       }, 5000)
@@ -53,17 +106,15 @@ export default function ContentAdmin() {
   }
 
   return (
-    <div className="bg-black text-white p-6 min-h-screen">
-      <h1 className="text-3xl font-black mt-4 text-center mb-8 uppercase">
+    <div className="bg-black text-white p-4 md:p-6 min-h-screen">
+      <h1 className="text-2xl md:text-3xl font-black mt-4 text-center mb-8 uppercase">
         Panel de Administración de Contenido
       </h1>
 
-      {/* Formulario */}
-      <div className="flex flex-col gap-4 items-start border-2 border-gray-400 rounded-xl px-6 py-6 bg-neutral-800 w-full max-w-4xl mx-auto shadow-2xl">
-        
-        {/* Selector de sección */}
+      <div className="flex flex-col gap-4 items-start border-2 border-gray-400 rounded-xl px-4 md:px-6 py-4 md:py-6 bg-neutral-800 w-full max-w-4xl mx-auto shadow-2xl">
+
         <div className="w-full">
-          <label htmlFor="whereGo" className="text-lg font-bold block mb-2">
+          <label htmlFor="whereGo" className="text-base md:text-lg font-bold block mb-2">
             Sección de la publicación:
           </label>
           <select
@@ -78,9 +129,8 @@ export default function ContentAdmin() {
           </select>
         </div>
 
-        {/* Campo de título */}
         <div className="w-full">
-          <label htmlFor="titleUpload" className="text-lg font-bold block mb-2">
+          <label htmlFor="titleUpload" className="text-base md:text-lg font-bold block mb-2">
             Título:
           </label>
           <input
@@ -98,12 +148,66 @@ export default function ContentAdmin() {
           </p>
         </div>
 
-        {/* Campo de contenido */}
         <div className="w-full">
-          <label htmlFor="contentUpload" className="text-lg font-bold block mb-2">
+          <label htmlFor="contentUpload" className="text-base md:text-lg font-bold block mb-2">
             Contenido (soporta Markdown):
           </label>
+
+          <div className="flex flex-wrap gap-2 mb-2">
+            <button
+              type="button"
+              onClick={() => insertMarkdown("**", "**")}
+              className="px-3 py-1 bg-neutral-700 hover:bg-neutral-600 rounded text-sm transition-colors"
+              title="Negrita"
+            >
+              <strong>B</strong>
+            </button>
+            <button
+              type="button"
+              onClick={() => insertMarkdown("*", "*")}
+              className="px-3 py-1 bg-neutral-700 hover:bg-neutral-600 rounded text-sm transition-colors italic"
+              title="Cursiva"
+            >
+              I
+            </button>
+            <button
+              type="button"
+              onClick={() => insertMarkdown("## ", "")}
+              className="px-3 py-1 bg-neutral-700 hover:bg-neutral-600 rounded text-sm transition-colors"
+              title="Título"
+            >
+              H2
+            </button>
+            <button
+              type="button"
+              onClick={() => insertMarkdown("### ", "")}
+              className="px-3 py-1 bg-neutral-700 hover:bg-neutral-600 rounded text-sm transition-colors"
+              title="Subtítulo"
+            >
+              H3
+            </button>
+            <button
+              type="button"
+              onClick={() => insertMarkdown("[", "](url)")}
+              className="px-3 py-1 bg-neutral-700 hover:bg-neutral-600 rounded text-sm transition-colors"
+              title="Enlace"
+            >
+              🔗
+            </button>
+            <label className="px-3 py-1 bg-blue-700 hover:bg-blue-600 rounded text-sm transition-colors cursor-pointer flex items-center gap-1">
+              {isUploadingImage ? "⏳" : "🖼️"} Imagen
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+                disabled={isUploadingImage}
+              />
+            </label>
+          </div>
+
           <textarea
+            ref={textareaRef}
             name="contentUpload"
             id="contentUpload"
             rows={12}
@@ -117,7 +221,6 @@ export default function ContentAdmin() {
           </p>
         </div>
 
-        {/* Botón de envío */}
         <button
           onClick={handleSubmit}
           disabled={isSubmitting || !title.trim() || !content.trim()}
@@ -132,7 +235,6 @@ export default function ContentAdmin() {
           )}
         </button>
 
-        {/* Mensajes de resultado */}
         {result && (
           <div
             className={`w-full p-4 rounded-xl mt-2 border-2 transition-all ${
@@ -158,24 +260,23 @@ export default function ContentAdmin() {
         )}
       </div>
 
-      {/* Vista previa */}
       <div className="w-full max-w-4xl mx-auto mt-10">
-        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+        <h2 className="text-xl md:text-2xl font-bold mb-4 flex items-center gap-2">
           <span>Vista previa en tiempo real:</span>
         </h2>
-        <div className="border-2 border-neutral-600 p-8 rounded-xl bg-neutral-800 shadow-2xl min-h-[300px]">
+        <div className="border-2 border-neutral-600 p-4 md:p-8 rounded-xl bg-neutral-800 shadow-2xl min-h-[300px]">
           {title && (
-            <h1 className="text-4xl font-bold mb-6 text-blue-400 border-b-2 border-blue-400 pb-4">
+            <h1 className="text-2xl md:text-4xl font-bold mb-6 text-blue-400 border-b-2 border-blue-400 pb-4">
               {title}
             </h1>
           )}
           {content ? (
-            <div className="prose prose-invert prose-lg max-w-none">
+            <div className="prose prose-invert prose-sm md:prose-lg max-w-none">
               <ReactMarkdown>{content}</ReactMarkdown>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-48 text-center">
-              <p className="text-neutral-500 italic text-lg">
+              <p className="text-neutral-500 italic text-base md:text-lg">
                 Aquí aparecerá tu obra maestra... o al menos algo legible
               </p>
               <p className="text-neutral-600 text-sm mt-2">
@@ -186,15 +287,15 @@ export default function ContentAdmin() {
         </div>
       </div>
 
-      {/* Info útil */}
       <div className="w-full max-w-4xl mx-auto mt-8 p-4 bg-neutral-900 rounded-xl border border-neutral-700">
-        <h3 className="font-bold mb-2">Tips de Markdown:</h3>
-        <ul className="text-sm text-neutral-400 space-y-1">
+        <h3 className="font-bold mb-2 text-sm md:text-base">Tips de Markdown:</h3>
+        <ul className="text-xs md:text-sm text-neutral-400 space-y-1">
           <li>• <code className="bg-neutral-800 px-1 rounded">**texto**</code> para negrita</li>
           <li>• <code className="bg-neutral-800 px-1 rounded">*texto*</code> para cursiva</li>
           <li>• <code className="bg-neutral-800 px-1 rounded"># Título</code> para títulos grandes</li>
           <li>• <code className="bg-neutral-800 px-1 rounded">## Subtítulo</code> para subtítulos</li>
           <li>• <code className="bg-neutral-800 px-1 rounded">- item</code> para listas</li>
+          <li>• <code className="bg-neutral-800 px-1 rounded">![alt](url)</code> para imágenes</li>
         </ul>
       </div>
     </div>
