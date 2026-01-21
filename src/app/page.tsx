@@ -16,11 +16,10 @@ export default function Home() {
   return (
     <div>
       <Header userData={<NameLastname />} auth={<Auth />} />
-      <main className="flex flex-col text-center mt-4">
-        {/* Contenido principal de la página */}
-        <section className="container mx-auto px-4 py-4 border-2 border-neutral-400 rounded-lg md:max-w-[50%]">
-          <h1 className="text-2xl font-bold text-white drop-shadow-xl drop-shadow-neutral-400 mb-4">Bienvenido a El Rincón de Martin</h1>
-          <p className="text-md text-red-500">
+      <main className="flex flex-col text-center mt-4 mb-24 sm:mb-20">
+        <section className="container mx-auto px-4 py-4 border-2 border-neutral-400 rounded-lg w-[95%] sm:w-auto md:max-w-[50%]">
+          <h1 className="text-xl sm:text-2xl font-bold text-white drop-shadow-xl drop-shadow-neutral-400 mb-4">Bienvenido a El Rincón de Martin</h1>
+          <p className="text-sm sm:text-md text-red-500">
             El espacio en el que publicaré un poco de todo: proyectos, tutoriales, opiniones y más
           </p>
         </section>

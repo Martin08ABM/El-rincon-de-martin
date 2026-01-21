@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /admin/
+Disallow: /actions/
+
+Sitemap: https://el-rincon-de-martin.vercel.app/sitemap.xml
